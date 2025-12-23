@@ -90,69 +90,94 @@ def admin_clients():
 @app.route("/admin/accounts", methods=["GET", "POST"])
 def admin_accounts():
     message = ""
+    error = ""
     if request.method == "POST":
-        username = request.form["username"]
-        photo = request.files.get("photo")
-        filename = ""
+        try:
+            required_fields = ["username", "email", "password", "fullname", "bank", "account_number", "account_type"]
+            for field in required_fields:
+                if not request.form.get(field):
+                    raise ValueError(f"Missing required field: {field}")
 
-        # Ensure upload folder exists
-        os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+            username = request.form["username"]
+            email = request.form["email"]
+            password = request.form["password"]
+            fullname = request.form["fullname"]
+            bank = request.form["bank"]
+            account_number = request.form["account_number"]
+            account_type = request.form["account_type"]
 
-        if photo and photo.filename:
-            filename = secure_filename(photo.filename)
-            photo.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+            # Email must be unique
+            for u, data in users.items():
+                if data.get("email", "").lower() == email.lower():
+                    raise ValueError("Email already exists. Please use a different email.")
+            if username in users:
+                raise ValueError("Username already exists. Please use a different username.")
 
-        # Handle bank logo upload
-        bank_logo_file = request.files.get("bank_logo")
-        bank_logo_filename = ""
-        if bank_logo_file and bank_logo_file.filename and allowed_file(bank_logo_file.filename):
-            bank_logo_filename = "logo_" + secure_filename(bank_logo_file.filename)
-            bank_logo_file.save(os.path.join(app.config["UPLOAD_FOLDER"], bank_logo_filename))
+            # Handle photo upload
+            photo = request.files.get("photo")
+            filename = ""
+            os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+            if photo and photo.filename:
+                filename = secure_filename(photo.filename)
+                photo.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
 
-        users[username] = {
-            "username": username,
-            "email": request.form["email"],
-            "password": request.form["password"],
-            "locked": False,
-            "message": "Account created successfully!",
-            "fullname": request.form["fullname"],
-            "bank": request.form["bank"],
-            "account_number": request.form["account_number"],
-            "account_type": request.form["account_type"],
-            "photo": filename,
-            "bank_logo": bank_logo_filename,
-            "balance": 0.0,
-            "created_by": session.get("admin", "admin"),
-            "transfer_history": []
-        }
-        initial_transfer = request.form.get("initial_transfer")
-        if initial_transfer:
-            users[username]["transfer_history"].append({
-                "type": "initial",
-                "amount": float(initial_transfer),
-                "description": "Initial deposit"
-            })
-            users[username]["balance"] += float(initial_transfer)
+            # Handle bank logo upload
+            bank_logo_file = request.files.get("bank_logo")
+            bank_logo_filename = ""
+            if bank_logo_file and bank_logo_file.filename and allowed_file(bank_logo_file.filename):
+                bank_logo_filename = "logo_" + secure_filename(bank_logo_file.filename)
+                bank_logo_file.save(os.path.join(app.config["UPLOAD_FOLDER"], bank_logo_filename))
 
-        # Add yearly transfer history if start_year is provided
-        start_year = request.form.get("start_year")
-        from datetime import datetime
-        if start_year:
-            try:
-                start_year = int(start_year)
-                current_year = datetime.now().year
-                for year in range(start_year, current_year + 1):
+            users[username] = {
+                "username": username,
+                "email": email,
+                "password": password,
+                "locked": False,
+                "message": "Account created successfully!",
+                "fullname": fullname,
+                "bank": bank,
+                "account_number": account_number,
+                "account_type": account_type,
+                "photo": filename,
+                "bank_logo": bank_logo_filename,
+                "balance": 0.0,
+                "created_by": session.get("admin", "admin"),
+                "transfer_history": []
+            }
+
+            # Optional fields
+            initial_transfer = request.form.get("initial_transfer")
+            if initial_transfer:
+                try:
+                    amt = float(initial_transfer)
                     users[username]["transfer_history"].append({
-                        "type": "yearly",
-                        "amount": 0.0,
-                        "description": f"Yearly history for {year}",
-                        "year": year
+                        "type": "initial",
+                        "amount": amt,
+                        "description": "Initial deposit"
                     })
-            except Exception:
-                pass
-        message = f"Account for {username} created successfully!"
-    # Show all users with transfer history
-    return render_template("admin_accounts.html", users=users, message=message)
+                    users[username]["balance"] += amt
+                except Exception:
+                    pass
+
+            start_year = request.form.get("start_year")
+            from datetime import datetime
+            if start_year:
+                try:
+                    start_year = int(start_year)
+                    current_year = datetime.now().year
+                    for year in range(start_year, current_year + 1):
+                        users[username]["transfer_history"].append({
+                            "type": "yearly",
+                            "amount": 0.0,
+                            "description": f"Yearly history for {year}",
+                            "year": year
+                        })
+                except Exception:
+                    pass
+            message = f"Account for {username} created successfully!"
+        except Exception as e:
+            error = str(e) if str(e).startswith("Missing required field") or str(e).endswith("exists. Please use a different email.") or str(e).endswith("exists. Please use a different username.") else "Invalid input. Please check all fields."
+    return render_template("admin_accounts.html", users=users, message=message, error=error)
 
 @app.route("/admin/security")
 def admin_security():
@@ -167,13 +192,14 @@ def login():
 
         # Try to find user by username or email
         user = None
+        username = None
         for u, data in users.items():
             if data.get("username") == login_id or data.get("email") == login_id:
                 user = data
                 username = u
                 break
         if not user or user["password"] != password:
-            return render_template("login.html", error="Incorrect username or password.")
+            return render_template("login.html", error="Invalid username/email or password.")
 
         # Allow login even if locked
         session["user"] = username

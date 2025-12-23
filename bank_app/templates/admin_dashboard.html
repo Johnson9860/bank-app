@@ -6,25 +6,25 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-100 text-slate-800">
-  <div class="max-w-3xl mx-auto mt-16 p-8 bg-white rounded-2xl shadow-lg">
-    <h2 class="text-3xl font-bold mb-4 text-slate-900">Admin Dashboard</h2>
-    <p class="mb-6 text-slate-600">Welcome to the admin dashboard. Manage users, view stats, and access all admin features here.</p>
-    <div class="grid grid-cols-3 gap-6 mb-8">
-      <a href="/admin/clients" class="bg-slate-900 text-white rounded-xl p-6 flex flex-col items-center hover:bg-slate-800 transition">
-        <span class="text-2xl mb-2">👥</span>
-        <span class="font-semibold">Clients</span>
+  <div class="max-w-5xl mx-auto mt-20 p-14 bg-white rounded-4xl shadow-2xl border border-blue-100" style="box-shadow:0 10px 48px rgba(16,30,54,0.14);">
+    <h2 class="text-5xl font-extrabold mb-8 text-blue-900 text-center tracking-tight">Admin Dashboard</h2>
+    <p class="mb-14 text-slate-600 text-2xl text-center">Welcome to the admin dashboard. Manage users, view stats, and access all admin features here.</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 mb-16 justify-items-center">
+      <a href="/admin/clients" class="bg-gradient-to-br from-blue-900 to-blue-700 text-white rounded-3xl p-14 min-w-[260px] min-h-[220px] flex flex-col items-center justify-center shadow-xl hover:scale-105 hover:shadow-2xl transition-all admin-dashboard-card">
+        <span class="text-5xl mb-6">👥</span>
+        <span class="font-bold text-2xl tracking-wide">Clients</span>
       </a>
-      <a href="/admin/accounts" class="bg-slate-900 text-white rounded-xl p-6 flex flex-col items-center hover:bg-slate-800 transition">
-        <span class="text-2xl mb-2">💳</span>
-        <span class="font-semibold">Accounts</span>
+      <a href="/admin/accounts" class="bg-gradient-to-br from-blue-900 to-blue-700 text-white rounded-3xl p-14 min-w-[260px] min-h-[220px] flex flex-col items-center justify-center shadow-xl hover:scale-105 hover:shadow-2xl transition-all admin-dashboard-card">
+        <span class="text-5xl mb-6">💳</span>
+        <span class="font-bold text-2xl tracking-wide">Accounts</span>
       </a>
-      <a href="/admin/security" class="bg-slate-900 text-white rounded-xl p-6 flex flex-col items-center hover:bg-slate-800 transition">
-        <span class="text-2xl mb-2">🔒</span>
-        <span class="font-semibold">Security</span>
+      <a href="/admin/security" class="bg-gradient-to-br from-blue-900 to-blue-700 text-white rounded-3xl p-14 min-w-[260px] min-h-[220px] flex flex-col items-center justify-center shadow-xl hover:scale-105 hover:shadow-2xl transition-all admin-dashboard-card">
+        <span class="text-5xl mb-6">🔒</span>
+        <span class="font-bold text-2xl tracking-wide">Security</span>
       </a>
     </div>
-    <div class="text-right">
-      <a href="/admin/logout" class="text-red-500 font-semibold hover:underline">Logout</a>
+    <div class="text-center mt-8">
+      <a href="/admin/logout" class="text-red-500 font-bold text-2xl hover:underline">Logout</a>
     </div>
   </div>
 </body>

@@ -23,6 +23,11 @@
       <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg">
     <h2 class="text-3xl font-bold mb-4 text-slate-900">Accounts</h2>
     <p class="mb-6 text-slate-600">Create new user accounts and view transfer history for each account below.</p>
+    {% if error %}
+      <div class="mb-6 p-4 bg-red-100 text-red-800 rounded-xl shadow text-center font-semibold">
+        {{ error }}
+      </div>
+    {% endif %}
     {% if message %}
       <div class="mb-6 p-4 bg-green-100 text-green-800 rounded-xl shadow text-center font-semibold">
         {{ message }}
