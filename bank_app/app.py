@@ -318,5 +318,3 @@ def transfer():
     })
     return render_template("transfer.html", message=f"Successfully transferred ${amount:.2f} to {recipient}.")
 
-if __name__ == "__main__":
-    app.run(debug=True)
