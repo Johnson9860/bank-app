@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Mobile Header -->
+<div class="md:hidden flex justify-between items-center p-4 bg-slate-900 text-white">
+  <span class="font-bold"><i class="fas fa-building-columns mr-2"></i>CoreBank Admin</span>
+  <button onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+</div>
+<div class="flex min-h-screen">
+  <!-- Sidebar -->
+  <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-64 bg-slate-900 text-slate-100 p-6 transform -translate-x-full md:translate-x-0 transition-transform z-50">
+    <h1 class="text-2xl font-bold mb-10 flex items-center gap-2"><i class="fas fa-building-columns"></i> CoreBank</h1>
+    <nav class="space-y-2">
+      <a href="/admin/dashboard" class="flex items-center gap-3 px-4 py-2 rounded font-medium transition-colors {% if request.path == '/admin/dashboard' %}bg-slate-800 text-white{% else %}text-slate-400 hover:bg-slate-800 hover:text-white{% endif %}"><i class="fas fa-user-shield"></i>Admin Management</a>
+      <a href="/admin/clients" class="flex items-center gap-3 px-4 py-2 rounded transition-colors {% if request.path == '/admin/clients' %}bg-slate-800 text-white{% else %}text-slate-400 hover:bg-slate-800 hover:text-white{% endif %}"><i class="fas fa-users"></i>Clients</a>
+      <a href="/admin/accounts" class="flex items-center gap-3 px-4 py-2 rounded transition-colors {% if request.path == '/admin/accounts' %}bg-slate-800 text-white{% else %}text-slate-400 hover:bg-slate-800 hover:text-white{% endif %}"><i class="fas fa-credit-card"></i>Accounts</a>
+      <a href="/admin/security" class="flex items-center gap-3 px-4 py-2 rounded transition-colors {% if request.path == '/admin/security' %}bg-slate-800 text-white{% else %}text-slate-400 hover:bg-slate-800 hover:text-white{% endif %}"><i class="fas fa-shield-halved"></i>Security</a>
+      <a href="/admin/logout" class="flex items-center gap-3 px-4 py-2 rounded text-red-400 mt-10 hover:bg-red-100"><i class="fas fa-sign-out-alt"></i>Logout</a>
+    </nav>
+  </aside>
+  <!-- Overlay for mobile -->
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-40 z-40 hidden md:hidden" onclick="toggleMenu()"></div>
+  <!-- Main -->
+  <main class="flex-1 p-6 md:p-10">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+      <div>
+        <h2 class="text-3xl font-bold flex items-center gap-3"><i class="fas fa-gauge-high text-blue-600"></i>Admin Dashboard</h2>
+        <p class="text-slate-500 mt-1">Enterprise system overview & control</p>
+      </div>
+      <div class="bg-white px-5 py-2 rounded-full shadow font-semibold flex items-center gap-2">
+        <i class="fas fa-user-shield text-blue-600"></i> {{ session['admin'] }}
+      </div>
+    </div>
+    <!-- Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+      <div class="bg-white p-6 rounded-xl shadow flex flex-col items-start">
+        <div class="flex items-center gap-2 text-slate-500 mb-2"><i class="fas fa-users"></i> Total Users</div>
+        <div class="text-4xl font-bold text-slate-800">{{ users|length }}</div>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow flex flex-col items-start">
+        <div class="flex items-center gap-2 text-slate-500 mb-2"><i class="fas fa-user-check"></i> Active Accounts</div>
+        <div class="text-4xl font-bold text-green-600">{{ users.values() | selectattr('locked', 'equalto', False) | list | length }}</div>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow flex flex-col items-start">
+        <div class="flex items-center gap-2 text-slate-500 mb-2"><i class="fas fa-user-lock"></i> Locked Accounts</div>
+        <div class="text-4xl font-bold text-red-600">{{ users.values() | selectattr('locked', 'equalto', True) | list | length }}</div>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow flex flex-col items-start">
+        <div class="flex items-center gap-2 text-slate-500 mb-2"><i class="fas fa-plus-circle"></i> Create Account</div>
+        <a href="#create-account" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold shadow hover:bg-blue-700 transition"><i class="fas fa-user-plus"></i> New Account</a>
+      </div>
+    </div>
+    <!-- Create Client -->
+    <div id="create-account" class="bg-white rounded-xl shadow p-8 mb-10">
+      <h3 class="text-xl font-bold mb-6 flex items-center gap-2"><i class="fas fa-user-plus text-blue-600"></i> Create Client Account</h3>
+      <form class="grid grid-cols-1 md:grid-cols-3 gap-4" method="post" enctype="multipart/form-data" id="create-account-form">
+        <div class="flex flex-col gap-1">
+          <label class="font-medium text-slate-700 mb-1">Username</label>
+          <input class="border rounded-lg p-3" name="username" placeholder="Username" required>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label class="font-medium text-slate-700 mb-1">Email</label>
+          <input class="border rounded-lg p-3" name="email" placeholder="Email" type="email" required>
+        </div>
+        <input class="border rounded-lg p-3" name="password" placeholder="Temp Password">
+        <input class="border rounded-lg p-3" name="fullname" placeholder="Full Name">
+        <input class="border rounded-lg p-3 md:col-span-2" name="bank" placeholder="Bank Name">
+        <input class="border rounded-lg p-3" name="account_number" placeholder="Account Number">
+        <select class="border rounded-lg p-3" name="account_type">
+          <option>Account Type</option>
+          <option>Savings</option>
+          <option>Current</option>
+          <option>Business</option>
+        </select>
+        <!-- Bank Logo Upload -->
+        <div class="col-span-1 md:col-span-3 flex flex-col gap-2">
+          <label class="font-medium text-slate-700 mb-1">Bank Logo</label>
+          <input type="file" name="bank_logo" id="bank_logo" accept="image/png,image/jpeg,image/jpg,image/svg+xml" class="border rounded-lg p-2">
+          <div id="logo-preview" class="mt-2"></div>
+        </div>
+        <button class="col-span-1 md:col-span-3 bg-blue-600 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-blue-700 transition">
+          <i class="fas fa-plus"></i> Create Account
+        </button>
+      </form>
+      <script>
+        // Logo preview
+        document.getElementById('bank_logo').addEventListener('change', function(e) {
+          const preview = document.getElementById('logo-preview');
+          preview.innerHTML = '';
+          const file = e.target.files[0];
+          if (file && file.size < 2 * 1024 * 1024) { // 2MB limit
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+              preview.innerHTML = `<img src="${ev.target.result}" alt="Logo Preview" style="max-height:60px;max-width:120px;border-radius:10px;box-shadow:0 2px 8px rgba(16,30,54,0.10);">`;
+            };
+            reader.readAsDataURL(file);
+          } else if (file) {
+            preview.innerHTML = '<span class="text-red-600 text-sm">Image too large (max 2MB).</span>';
+          }
+        });
+      </script>
+    </div>
+    <!-- Clients Table -->
+    <div class="bg-white rounded-xl shadow p-8">
+      <h3 class="text-xl font-bold mb-6 flex items-center gap-2"><i class="fas fa-users text-blue-600"></i> Managed Clients</h3>
+      {% if message %}
+        <div id="success-alert" class="mb-4 flex items-center justify-between p-4 bg-green-100 text-green-800 rounded shadow text-base font-medium transition">
+          <div class="flex items-center gap-2">
+            <i class="fas fa-check-circle text-green-600 text-xl"></i>
+            <span>
+              Account created successfully.<br>
+              <span class="text-green-700 text-sm">The new account has been created and is now active.</span>
+            </span>
+          </div>
+          <button onclick="document.getElementById('success-alert').style.display='none'" class="ml-4 text-green-700 hover:text-green-900 text-lg">&times;</button>
+        </div>
+        <script>
+          setTimeout(function() {
+            var alert = document.getElementById('success-alert');
+            if(alert) alert.style.display = 'none';
+          }, 5000);
+        </script>
+      {% endif %}
+      <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm">
+        <thead class="text-slate-500 border-b">
+          <tr>
+            <th class="py-2 font-semibold"><i class="fas fa-image"></i></th>
+            <th>Username</th>
+            <th>Full Name</th>
+            <th>Bank</th>
+            <th>Account Number</th>
+            <th>Account Type</th>
+            <th>Status</th>
+            <th>Created By</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for user, data in users.items() %}
+          <tr class="border-b hover:bg-slate-50 transition">
+            <td class="py-2">
+              {% if data.photo %}
+                <img src="{{ url_for('static', filename='uploads/' + data.photo) }}" class="w-10 h-10 rounded-full border">
+              {% else %}
+                <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full border">
+              {% endif %}
+            </td>
+            <td>{{ user }}</td>
+            <td>{{ data.fullname }}</td>
+            <td>{{ data.bank }}</td>
+            <td>{{ data.account_number }}</td>
+            <td>{{ data.account_type }}</td>
+            <td>
+              {% if data.locked %}
+                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1"><i class="fas fa-lock"></i> Locked</span>
+              {% else %}
+                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1"><i class="fas fa-unlock"></i> Active</span>
+              {% endif %}
+            </td>
+            <td>{{ data.created_by }}</td>
+            <td>
+              {% if data.locked %}
+                <a href="/admin/unlock/{{ user }}" class="text-green-600 font-bold hover:underline flex items-center gap-1"><i class="fas fa-unlock"></i>Unlock</a>
+              {% else %}
+                <form action="/admin/lock/{{ user }}" method="post" style="display:inline-block;">
+                  <input name="message" placeholder="Reason / message to user" required class="border rounded px-2 py-1 text-xs" style="width:140px;">
+                  <button class="text-red-600 font-bold px-2 py-1 rounded flex items-center gap-1"><i class="fas fa-lock"></i>Lock</button>
+                </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% else %}
+          <tr><td colspan="9" class="text-center py-6 text-slate-400">No clients found.</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+function toggleMenu() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  const isOpen = sidebar.classList.contains('translate-x-0');
+  if (isOpen) {
+    sidebar.classList.remove('translate-x-0');
+    sidebar.classList.add('-translate-x-full');
+    overlay.classList.add('hidden');
+  } else {
+    sidebar.classList.remove('-translate-x-full');
+    sidebar.classList.add('translate-x-0');
+    overlay.classList.remove('hidden');
+  }
+}
+</script>
+</body>
+</html>

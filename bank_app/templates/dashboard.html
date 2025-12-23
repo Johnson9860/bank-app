@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+  <img src="https://static01.nyt.com/images/2021/04/21/business/21econ-brf-jpmorgan/merlin_186614244_0c10a6fb-8489-4ee5-8ddc-3ad68d1ce668-mediumSquareAt3X.jpg" alt="Bank Logo" style="height:56px;width:56px;object-fit:cover;border-radius:12px;margin-bottom:16px;box-shadow:0 2px 8px rgba(16,30,54,0.10);background:#fff;">
+  <h2>Welcome, {{ user.fullname }}</h2>
+
+  <p>Account Status:
+    {% if user.locked %}
+      <strong style="color:red;">Restricted</strong>
+    {% else %}
+      <strong style="color:green;">Active</strong>
+    {% endif %}
+  </p>
+
+  <p>Balance: ₦{{ user.balance }}</p>
+
+  <a href="/transfer">Make Transfer</a>
+
+  <div class="menu-grid">
+    <div class="menu-item">Cheques</div>
+    <div class="menu-item">Debit Card</div>
+    <div class="menu-item">Credit Card</div>
+    <div class="menu-item">Virtual Card</div>
+    <div class="menu-item">Flights</div>
+    <div class="menu-item">Movies</div>
+    <div class="menu-item">Events</div>
+    <div class="menu-item">Pension</div>
+  </div>
+
+  <!-- ADS -->
+  <div class="ad-box">
+    💡 Lifestyle deals • Travel discounts • Special offers
+  </div>
+</div>
+
+</body>
+</html>

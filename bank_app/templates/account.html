@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPMorgan Chase Online Banking - Account Details</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f0f0; margin: 0; padding: 20px; }
+        .container { background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 600px; margin: 0 auto; }
+        h1 { color: #333; }
+        .detail { margin: 10px 0; }
+        .detail strong { color: #0066cc; }
+        .back { margin-top: 20px; }
+        .back a { color: #0066cc; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>JPMorgan Chase Account Details</h1>
+        <div class="detail"><strong>Full Name:</strong> {{ user_data.fullname }}</div>
+        <div class="detail"><strong>Username:</strong> {{ username }}</div>
+        <div class="detail"><strong>Bank:</strong> {{ user_data.bank }}</div>
+        <div class="detail"><strong>Account Number:</strong> {{ user_data.account_number }}</div>
+        <div class="detail"><strong>Account Type:</strong> {{ user_data.account_type }}</div>
+        <div class="detail"><strong>Balance:</strong> ${{ "%.2f"|format(user_data.balance) }}</div>
+        {% if user_data.photo %}
+        <div class="detail">
+            <img src="{{ url_for('static', filename='uploads/' + user_data.photo) }}" width="80" style="border-radius:50%;">
+        </div>
+        {% endif %}
+        <div class="back">
+            <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

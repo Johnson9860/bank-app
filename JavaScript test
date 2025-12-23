@@ -1,0 +1,26 @@
+def login_user(username, password):
+    """
+    Function to login a user with username and password.
+    Returns True if login is successful, False otherwise.
+    """
+    # Simulate a simple user database (in a real app, this would be a database)
+    users = {
+        'admin': 'password123',
+        'user1': 'pass1'
+    }
+
+    if username in users and users[username] == password:
+        return True
+    return False
+
+
+# Example usage
+if __name__ == "__main__":
+    username = input("Enter username: ")
+    password = input("Enter password: ")
+
+    if login_user(username, password):
+        print("Login successful!")
+    else:
+        print("Login failed!")
+

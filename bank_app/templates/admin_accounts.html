@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Accounts</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 text-slate-800">
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-slate-900 text-slate-100 p-6 hidden md:block">
+      <h1 class="text-xl font-bold mb-10">CoreBank</h1>
+      <nav class="space-y-4">
+        <a href="/admin/dashboard" class="block px-4 py-2 rounded font-medium transition-colors {% if request.path == '/admin/dashboard' %}bg-slate-800 text-white{% else %}text-slate-400 hover:bg-slate-800 hover:text-white{% endif %}">Admin Management</a>
+        <a href="/admin/clients" class="block px-4 py-2 rounded transition-colors {% if request.path == '/admin/clients' %}bg-slate-800 text-white{% else %}text-slate-400 hover:bg-slate-800 hover:text-white{% endif %}">Clients</a>
+        <a href="/admin/accounts" class="block px-4 py-2 rounded transition-colors {% if request.path == '/admin/accounts' %}bg-slate-800 text-white{% else %}text-slate-400 hover:bg-slate-800 hover:text-white{% endif %}">Accounts</a>
+        <a href="/admin/security" class="block px-4 py-2 rounded transition-colors {% if request.path == '/admin/security' %}bg-slate-800 text-white{% else %}text-slate-400 hover:bg-slate-800 hover:text-white{% endif %}">Security</a>
+        <a href="/admin/logout" class="block px-4 py-2 rounded text-red-400 mt-10 hover:bg-red-100">Logout</a>
+      </nav>
+    </aside>
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg">
+    <h2 class="text-3xl font-bold mb-4 text-slate-900">Accounts</h2>
+    <p class="mb-6 text-slate-600">Create new user accounts and view transfer history for each account below.</p>
+    {% if message %}
+      <div class="mb-6 p-4 bg-green-100 text-green-800 rounded-xl shadow text-center font-semibold">
+        {{ message }}
+      </div>
+    {% endif %}
+    <!-- Account Creation Form -->
+    <form method="POST" enctype="multipart/form-data" class="mb-10 bg-slate-50 p-6 rounded-xl shadow">
+      <h3 class="text-xl font-semibold mb-4 text-slate-800">Create New Account</h3>
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        <input type="text" name="username" placeholder="Username" required class="border rounded px-3 py-2">
+        <input type="password" name="password" placeholder="Password" required class="border rounded px-3 py-2">
+        <input type="text" name="fullname" placeholder="Full Name" required class="border rounded px-3 py-2">
+        <input type="text" name="bank" placeholder="Bank Name" required class="border rounded px-3 py-2">
+        <input type="text" name="account_number" placeholder="Account Number" required class="border rounded px-3 py-2">
+        <input type="text" name="account_type" placeholder="Account Type" required class="border rounded px-3 py-2">
+        <input type="number" name="initial_transfer" placeholder="Initial Deposit (optional)" min="0" step="0.01" class="border rounded px-3 py-2">
+        <input type="number" name="start_year" placeholder="Transfer History Start Year (optional)" min="1900" max="2100" class="border rounded px-3 py-2">
+        <input type="file" name="photo" accept="image/*" class="border rounded px-3 py-2">
+      </div>
+      <button type="submit" class="bg-slate-900 text-white px-6 py-2 rounded hover:bg-slate-800">Create Account</button>
+    </form>
+    <table class="w-full text-left rounded-xl overflow-hidden shadow mb-8">
+      <thead class="bg-slate-900 text-white">
+        <tr>
+          <th class="py-3 px-4">Username</th>
+          <th class="py-3 px-4">Full Name</th>
+          <th class="py-3 px-4">Account Number</th>
+          <th class="py-3 px-4">Balance</th>
+          <th class="py-3 px-4">Transfer History</th>
+          <th class="py-3 px-4">Status & Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user, data in users.items() %}
+        <tr class="border-b hover:bg-slate-100">
+          <td class="py-2 px-4">{{ user }}</td>
+          <td class="py-2 px-4">{{ data.fullname }}</td>
+          <td class="py-2 px-4">{{ data.account_number }}</td>
+          <td class="py-2 px-4">
+            {% if data.balance is defined %}
+              ${{ '%.2f'|format(data.balance) }}
+            {% else %}
+              <span class="text-slate-400">N/A</span>
+            {% endif %}
+          </td>
+          <td class="py-2 px-4">
+            {% if data.transfer_history is defined and data.transfer_history|length > 0 %}
+              <ul class="list-disc pl-4">
+                {% for t in data.transfer_history %}
+                  <li class="mb-1">
+                    {% if t.type == 'sent' %}
+                      <span class="text-red-600 font-semibold">Sent</span> ${{ '%.2f'|format(t.amount) }} to <span class="font-semibold">{{ t.to }}</span>
+                    {% elif t.type == 'received' %}
+                      <span class="text-green-600 font-semibold">Received</span> ${{ '%.2f'|format(t.amount) }} from <span class="font-semibold">{{ t.from }}</span>
+                    {% elif t.type == 'initial' %}
+                      <span class="text-blue-600 font-semibold">Initial Deposit</span> ${{ '%.2f'|format(t.amount) }}
+                    {% elif t.type == 'yearly' %}
+                      <span class="text-slate-600 font-semibold">Yearly Entry</span> <span class="font-semibold">{{ t.year }}</span>
+                    {% endif %}
+                    <span class="ml-2 text-xs text-slate-500">{{ t.description }}</span>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <span class="text-slate-400">No history</span>
+            {% endif %}
+          </td>
+          <td class="py-2 px-4">
+            <!-- Account Status -->
+            {% if data.locked %}
+              <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold mr-2">Locked</span>
+            {% else %}
+              <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold mr-2">Active</span>
+            {% endif %}
+            <!-- Lock/Unlock and Message Form -->
+            <div class="mt-2 flex flex-col gap-2">
+              {% if data.locked %}
+                <form method="POST" action="/admin/unlock/{{ user }}" class="inline">
+                  <button type="submit" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 w-full">Unlock Account</button>
+                </form>
+              {% else %}
+                <form method="POST" action="/admin/lock/{{ user }}" class="inline flex gap-2">
+                  <input type="text" name="message" placeholder="Lock message" class="border rounded px-2 py-1 text-xs w-2/3" required>
+                  <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 w-1/3">Lock Account</button>
+                </form>
+              {% endif %}
+              <!-- Send Message to Account -->
+              <form method="POST" action="/admin/message/{{ user }}" class="inline flex gap-2">
+                <input type="text" name="message" placeholder="Send message to user" class="border rounded px-2 py-1 text-xs w-2/3" required>
+                <button type="submit" class="bg-slate-900 text-white px-3 py-1 rounded hover:bg-slate-800 w-1/3">Send Message</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

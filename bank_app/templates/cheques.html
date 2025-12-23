@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPMorgan Chase Online Banking - Cheques</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1f2937, #3b82f6);
+            min-height: 100vh;
+            color: #f8fafc;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .card {
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #f8fafc;
+        }
+        .btn-custom {
+            border-radius: 10px;
+            margin: 5px;
+            backdrop-filter: blur(5px);
+        }
+        .back {
+            margin-top: 20px;
+        }
+        .back a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow p-4">
+                    <h1 class="text-center mb-4">JPMorgan Chase Cheques</h1>
+                    <p class="text-center mb-4">Manage your cheque services</p>
+
+                    <div class="d-grid gap-3">
+                        <button class="btn btn-outline-primary btn-custom" onclick="alert('Cheque book requested successfully!')">Request Cheque Book</button>
+                        <button class="btn btn-outline-warning btn-custom" onclick="alert('Cheque stopped successfully!')">Stop Cheque</button>
+                        <button class="btn btn-outline-info btn-custom" onclick="alert('Cheque status: All cheques are active.')">Cheque Status</button>
+                    </div>
+
+                    <div class="back text-center">
+                        <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPMorgan Chase Online Banking - Pension Services</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1f2937, #3b82f6);
+            min-height: 100vh;
+            color: #f8fafc;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .card {
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #f8fafc;
+        }
+        .btn-custom {
+            border-radius: 10px;
+            margin: 5px;
+            backdrop-filter: blur(5px);
+        }
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #f8fafc;
+        }
+        .form-control::placeholder {
+            color: #d1d5db;
+        }
+        .pension-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .back {
+            margin-top: 20px;
+        }
+        .back a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow p-4">
+                    <h1 class="text-center mb-4">JPMorgan Chase Pension Services</h1>
+                    <p class="text-center mb-4">Manage your retirement savings and pension plans</p>
+
+                    <!-- Pension Menu Options -->
+                    <div class="row mb-4">
+                        <div class="col-md-4 mb-3">
+                            <button class="btn btn-outline-primary btn-custom w-100" onclick="showPensionBalance()">
+                                <i class="fas fa-wallet"></i> Pension Balance
+                            </button>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <button class="btn btn-outline-info btn-custom w-100" onclick="showContributionHistory()">
+                                <i class="fas fa-history"></i> Contribution History
+                            </button>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary btn-custom w-100">
+                                <i class="fas fa-arrow-left"></i> Back to Main Menu
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="pension-card">
+                        <h5>401(k) Retirement Plan</h5>
+                        <p>Current Balance: $125,000</p>
+                        <p>Annual Contribution: $15,000</p>
+                        <button class="btn btn-outline-primary btn-sm" onclick="alert('Pension contribution processed!')">Contribute</button>
+                        <button class="btn btn-outline-info btn-sm" onclick="alert('Pension details: Employer match 50%, Vesting: 4 years')">View Details</button>
+                    </div>
+
+                    <div class="pension-card">
+                        <h5>IRA Traditional</h5>
+                        <p>Current Balance: $75,000</p>
+                        <p>Tax Year: 2024</p>
+                        <button class="btn btn-outline-primary btn-sm" onclick="alert('IRA contribution processed!')">Contribute</button>
+                        <button class="btn btn-outline-info btn-sm" onclick="alert('IRA details: Tax deductible, Penalty-free withdrawals at 59.5')">View Details</button>
+                    </div>
+
+                    <form class="mt-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="amount" class="form-label">Contribution Amount</label>
+                                <input type="number" class="form-control" id="amount" placeholder="Enter amount">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="plan" class="form-label">Pension Plan</label>
+                                <select class="form-control" id="plan">
+                                    <option value="401k">401(k)</option>
+                                    <option value="ira">IRA</option>
+                                    <option value="roth">Roth IRA</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-outline-success btn-custom" onclick="makeContribution()">Make Contribution</button>
+                        </div>
+                    </form>
+
+                    <div class="back text-center">
+                        <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function makeContribution() {
+            const amount = document.getElementById('amount').value;
+            const plan = document.getElementById('plan').value;
+            if (amount && amount > 0) {
+                alert(`Contribution of $${amount} to ${plan} processed successfully!`);
+            } else {
+                alert('Please enter a valid contribution amount');
+            }
+        }
+
+        function showPensionBalance() {
+            alert(`--- PENSION BALANCE ---\n\n401(k) Retirement Plan: $125,000\nIRA Traditional: $75,000\nRoth IRA: $45,000\n\nTotal Pension Balance: $245,000\n\nProjected Retirement Age: 65\nMonthly Benefit Estimate: $3,200`);
+        }
+
+        function showContributionHistory() {
+            alert(`--- CONTRIBUTION HISTORY ---\n\nRecent Contributions:\n• 401(k): $500 (Dec 15, 2024)\n• IRA: $1,000 (Nov 30, 2024)\n• 401(k): $500 (Nov 15, 2024)\n• Roth IRA: $750 (Oct 31, 2024)\n• 401(k): $500 (Oct 15, 2024)\n\nYear-to-Date: $12,450\nEmployer Match: $3,200`);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPMorgan Chase Online Banking - Event Tickets</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1f2937, #3b82f6);
+            min-height: 100vh;
+            color: #f8fafc;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .card {
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #f8fafc;
+        }
+        .btn-custom {
+            border-radius: 10px;
+            margin: 5px;
+            backdrop-filter: blur(5px);
+        }
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #f8fafc;
+        }
+        .form-control::placeholder {
+            color: #d1d5db;
+        }
+        .event-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .back {
+            margin-top: 20px;
+        }
+        .back a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow p-4">
+                    <h1 class="text-center mb-4">JPMorgan Chase Event Tickets</h1>
+                    <p class="text-center mb-4">Book tickets for concerts, sports, and events</p>
+
+                    <div class="event-card">
+                        <h5>Taylor Swift World Tour</h5>
+                        <p>Date: 2025-03-15 | Venue: Madison Square Garden</p>
+                        <p>Price: $150 (Bank discount: $135)</p>
+                        <button class="btn btn-outline-primary btn-sm" onclick="alert('Event ticket booked! Confirmation: EVENT789')">Book Now</button>
+                    </div>
+
+                    <div class="event-card">
+                        <h5>Champions League Final</h5>
+                        <p>Date: 2025-05-28 | Venue: Wembley Stadium</p>
+                        <p>Price: $200 (Bank discount: $175)</p>
+                        <button class="btn btn-outline-primary btn-sm" onclick="alert('Event ticket booked! Confirmation: EVENT101')">Book Now</button>
+                    </div>
+
+                    <form class="mt-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="event" class="form-label">Event Type</label>
+                                <select class="form-control" id="event">
+                                    <option value="">Select event type</option>
+                                    <option value="concert">Concert</option>
+                                    <option value="sports">Sports</option>
+                                    <option value="theater">Theater</option>
+                                    <option value="festival">Festival</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="location" class="form-label">Location</label>
+                                <input type="text" class="form-control" id="location" placeholder="City or venue">
+                            </div>
+                        </div>
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-outline-success btn-custom" onclick="searchEvents()">Search Events</button>
+                        </div>
+                    </form>
+
+                    <div class="back text-center">
+                        <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function searchEvents() {
+            const event = document.getElementById('event').value;
+            const location = document.getElementById('location').value;
+            if (event || location) {
+                alert(`Searching for ${event || 'all'} events in ${location || 'all locations'}...\nFound 12 events available!`);
+            } else {
+                alert('Please select an event type or enter a location');
+            }
+        }
+    </script>
+</body>
+</html>

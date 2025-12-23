@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include '_bank_config.html' %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ BANK_NAME }} - Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    body { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+  <!-- NAVBAR -->
+  <nav class="bg-white shadow-sm px-4 md:px-12 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <img src="https://static01.nyt.com/images/2021/04/21/business/21econ-brf-jpmorgan/merlin_186614244_0c10a6fb-8489-4ee5-8ddc-3ad68d1ce668-mediumSquareAt3X.jpg" alt="Bank Logo" class="h-8 w-8 object-cover rounded-md shadow" style="background:#fff;">
+      <span class="font-bold text-xl text-blue-900 tracking-wide">{{ BANK_NAME }}</span>
+    </div>
+    <ul class="hidden md:flex gap-8 font-medium text-slate-700">
+      <li><a href="/" class="hover:text-blue-700">Home</a></li>
+      <li><a href="#personal" class="hover:text-blue-700">Personal Banking</a></li>
+      <li><a href="#business" class="hover:text-blue-700">Business Banking</a></li>
+      <li><a href="#corporate" class="hover:text-blue-700">Corporate</a></li>
+      <li><a href="#contact" class="hover:text-blue-700">Contact</a></li>
+    </ul>
+    <a href="/" class="md:hidden text-blue-900 text-2xl"><i class="fas fa-bars"></i></a>
+    <a href="/" class="ml-6 px-5 py-2 bg-blue-900 text-white rounded-lg font-semibold shadow hover:bg-blue-800 transition hidden md:block">Login / Open Account</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-16 px-4 md:px-0 text-center">
+    <h1 class="text-3xl md:text-5xl font-bold mb-4">Fast & Secure Online Banking</h1>
+    <p class="text-lg md:text-2xl mb-8">Bank anywhere, anytime. Experience the future of finance with {{ BANK_NAME }}.</p>
+    <a href="/" class="inline-block px-8 py-3 bg-white text-blue-900 font-semibold rounded-lg shadow hover:bg-slate-100 transition">Login / Open Account</a>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="max-w-6xl mx-auto py-12 px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="bg-white rounded-xl shadow p-7 flex flex-col items-center text-center">
+      <i class="fas fa-piggy-bank text-3xl text-blue-800 mb-3"></i>
+      <h3 class="font-bold text-lg mb-2">Savings Accounts</h3>
+      <p class="text-slate-600 mb-3">Grow your money with flexible savings plans and competitive interest rates.</p>
+      <a href="#" class="text-blue-700 font-semibold hover:underline">Learn More</a>
+    </div>
+    <div class="bg-white rounded-xl shadow p-7 flex flex-col items-center text-center">
+      <i class="fas fa-wallet text-3xl text-blue-800 mb-3"></i>
+      <h3 class="font-bold text-lg mb-2">Current Accounts</h3>
+      <p class="text-slate-600 mb-3">Manage your daily finances with ease and enjoy seamless transactions.</p>
+      <a href="#" class="text-blue-700 font-semibold hover:underline">Learn More</a>
+    </div>
+    <div class="bg-white rounded-xl shadow p-7 flex flex-col items-center text-center">
+      <i class="fas fa-credit-card text-3xl text-blue-800 mb-3"></i>
+      <h3 class="font-bold text-lg mb-2">Cards</h3>
+      <p class="text-slate-600 mb-3">Access your funds worldwide with our secure debit and credit cards.</p>
+      <a href="#" class="text-blue-700 font-semibold hover:underline">Learn More</a>
+    </div>
+    <div class="bg-white rounded-xl shadow p-7 flex flex-col items-center text-center">
+      <i class="fas fa-hand-holding-usd text-3xl text-blue-800 mb-3"></i>
+      <h3 class="font-bold text-lg mb-2">Loans</h3>
+      <p class="text-slate-600 mb-3">Flexible loan options for personal, business, and corporate needs.</p>
+      <a href="#" class="text-blue-700 font-semibold hover:underline">Learn More</a>
+    </div>
+    <div class="bg-white rounded-xl shadow p-7 flex flex-col items-center text-center">
+      <i class="fas fa-exchange-alt text-3xl text-blue-800 mb-3"></i>
+      <h3 class="font-bold text-lg mb-2">Transfers</h3>
+      <p class="text-slate-600 mb-3">Send and receive money instantly, locally and internationally.</p>
+      <a href="#" class="text-blue-700 font-semibold hover:underline">Learn More</a>
+    </div>
+    <div class="bg-white rounded-xl shadow p-7 flex flex-col items-center text-center">
+      <i class="fas fa-globe text-3xl text-blue-800 mb-3"></i>
+      <h3 class="font-bold text-lg mb-2">Internet Banking</h3>
+      <p class="text-slate-600 mb-3">24/7 access to your accounts and services from any device.</p>
+      <a href="#" class="text-blue-700 font-semibold hover:underline">Learn More</a>
+    </div>
+  </section>
+
+  <!-- BANNERS -->
+  <section class="max-w-6xl mx-auto px-4 pb-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="bg-gradient-to-r from-blue-800 to-blue-600 text-white rounded-xl shadow p-8 flex items-center gap-6">
+      <i class="fas fa-shield-alt text-4xl"></i>
+      <div>
+        <h4 class="font-bold text-lg mb-1">Secure Banking</h4>
+        <p class="text-slate-100">Your funds and data are protected with industry-leading security and 2FA.</p>
+      </div>
+    </div>
+    <div class="bg-gradient-to-r from-green-700 to-green-500 text-white rounded-xl shadow p-8 flex items-center gap-6">
+      <i class="fas fa-percent text-4xl"></i>
+      <div>
+        <h4 class="font-bold text-lg mb-1">Special Loan Offers</h4>
+        <p class="text-slate-100">Get low-interest loans for your business or personal needs. Limited time only.</p>
+      </div>
+    </div>
+    <div class="bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-xl shadow p-8 flex items-center gap-6 md:col-span-2">
+      <i class="fas fa-piggy-bank text-4xl"></i>
+      <div>
+        <h4 class="font-bold text-lg mb-1">Save More, Earn More</h4>
+        <p class="text-slate-100">Open a savings account today and enjoy premium interest rates and rewards.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t py-6 text-center text-slate-500 text-sm">
+    <span class="font-semibold text-slate-700">&copy; 2009 JPMorgan Chase Bank. All rights reserved.</span>
+  </footer>
+</body>
+</html>

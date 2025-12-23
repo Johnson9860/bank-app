@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Account Locked</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-slate-100 text-slate-800">
+  <div class="container" style="max-width:500px; margin:80px auto;">
+    <h2 class="text-red-600">Account Restricted</h2>
+    <p>{{ message }}</p>
+    <p>Please contact your bank.</p>
+    <a href="/" class="text-blue-600">Return to Login</a>
+  </div>
+</body>
+</html>

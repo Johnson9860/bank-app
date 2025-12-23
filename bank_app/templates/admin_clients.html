@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Clients</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 text-slate-800">
+  <div class="max-w-4xl mx-auto mt-16 p-8 bg-white rounded-2xl shadow-lg">
+    <h2 class="text-3xl font-bold mb-4 text-slate-900">Clients</h2>
+    <p class="mb-6 text-slate-600">List and manage all client accounts here.</p>
+    <table class="w-full text-left rounded-xl overflow-hidden shadow">
+      <thead class="bg-slate-900 text-white">
+        <tr>
+          <th class="py-3 px-4">Username</th>
+          <th class="py-3 px-4">Full Name</th>
+          <th class="py-3 px-4">Bank</th>
+          <th class="py-3 px-4">Account Number</th>
+          <th class="py-3 px-4">Account Type</th>
+          <th class="py-3 px-4">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user, data in users.items() %}
+        <tr class="border-b hover:bg-slate-100">
+          <td class="py-2 px-4">{{ user }}</td>
+          <td class="py-2 px-4">{{ data.fullname }}</td>
+          <td class="py-2 px-4">{{ data.bank }}</td>
+          <td class="py-2 px-4">{{ data.account_number }}</td>
+          <td class="py-2 px-4">{{ data.account_type }}</td>
+          <td class="py-2 px-4">{% if data.locked %}<span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">Locked</span>{% else %}<span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">Active</span>{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

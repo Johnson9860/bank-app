@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPMorgan Chase Online Banking - Investment Services</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1f2937, #3b82f6);
+            min-height: 100vh;
+            color: #f8fafc;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .card {
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #f8fafc;
+        }
+        .btn-custom {
+            border-radius: 10px;
+            margin: 5px;
+            backdrop-filter: blur(5px);
+        }
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #f8fafc;
+        }
+        .form-control::placeholder {
+            color: #d1d5db;
+        }
+        .investment-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .positive { color: #10b981; }
+        .negative { color: #ef4444; }
+        .back {
+            margin-top: 20px;
+        }
+        .back a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow p-4">
+                    <h1 class="text-center mb-4">JPMorgan Chase Investment Services</h1>
+                    <p class="text-center mb-4">Monitor and manage your investment portfolio</p>
+
+                    <div class="investment-card">
+                        <h5>Apple Inc. (AAPL)</h5>
+                        <p>Shares: 50 | Current Price: $175.50</p>
+                        <p>Total Value: $8,775 | Change: <span class="positive">+2.3%</span></p>
+                        <button class="btn btn-outline-primary btn-sm" onclick="alert('Buy order placed for 10 shares of AAPL')">Buy More</button>
+                        <button class="btn btn-outline-danger btn-sm" onclick="alert('Sell order placed for 5 shares of AAPL')">Sell</button>
+                    </div>
+
+                    <div class="investment-card">
+                        <h5>Microsoft Corp (MSFT)</h5>
+                        <p>Shares: 30 | Current Price: $335.20</p>
+                        <p>Total Value: $10,056 | Change: <span class="positive">+1.8%</span></p>
+                        <button class="btn btn-outline-primary btn-sm" onclick="alert('Buy order placed for 5 shares of MSFT')">Buy More</button>
+                        <button class="btn btn-outline-danger btn-sm" onclick="alert('Sell order placed for 3 shares of MSFT')">Sell</button>
+                    </div>
+
+                    <div class="investment-card">
+                        <h5>Portfolio Summary</h5>
+                        <p>Total Value: $45,230 | Day Change: <span class="positive">+1.2%</span></p>
+                        <p>Year-to-Date: <span class="positive">+15.7%</span></p>
+                    </div>
+
+                    <form class="mt-4">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="symbol" class="form-label">Stock Symbol</label>
+                                <input type="text" class="form-control" id="symbol" placeholder="e.g., AAPL">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="shares" class="form-label">Shares</label>
+                                <input type="number" class="form-control" id="shares" placeholder="Number of shares">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="action" class="form-label">Action</label>
+                                <select class="form-control" id="action">
+                                    <option value="buy">Buy</option>
+                                    <option value="sell">Sell</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-outline-success btn-custom" onclick="placeOrder()">Place Order</button>
+                        </div>
+                    </form>
+
+                    <div class="back text-center">
+                        <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function placeOrder() {
+            const symbol = document.getElementById('symbol').value.toUpperCase();
+            const shares = document.getElementById('shares').value;
+            const action = document.getElementById('action').value;
+            if (symbol && shares && shares > 0) {
+                alert(`${action.toUpperCase()} order placed: ${shares} shares of ${symbol}\nOrder ID: ORD${Math.floor(Math.random() * 10000)}`);
+            } else {
+                alert('Please fill in all fields with valid values');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Account Restricted</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-slate-100 text-slate-800">
+  <div class="container" style="max-width:500px; margin:80px auto;">
+    <h2 class="text-red-600">Transaction Blocked</h2>
+    <p>{{ message }}</p>
+    <p>Please contact customer support.</p>
+    <a href="/dashboard" class="text-blue-600">Back to Dashboard</a>
+  </div>
+</body>
+</html>
