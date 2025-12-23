@@ -1,0 +1,291 @@
+/* =========================
+   GLOBAL RESET & BASE
+========================= */
+* {
+  box-sizing: border-box;
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+  color: #0f172a;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+.sidebar {
+  width: 260px;
+  background: #020617;
+  color: #e5e7eb;
+  padding: 32px 22px;
+}
+
+.sidebar h2 {
+  margin: 0 0 36px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.sidebar a {
+  display: block;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #cbd5f5;
+  font-size: 15px;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+  background: #1e293b;
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+/* =========================
+   MAIN CONTENT
+========================= */
+.main {
+  flex: 1;
+  padding: 40px;
+}
+
+/* =========================
+   HEADER / TOPBAR
+========================= */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 36px;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.topbar p {
+  margin: 6px 0 0;
+  color: #64748b;
+  font-size: 15px;
+}
+
+.admin-chip {
+  background: #020617;
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+/* =========================
+   DASHBOARD STATS
+========================= */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background: #ffffff;
+  padding: 26px;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.stat-card span {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.stat-card strong {
+  display: block;
+  font-size: 36px;
+  margin-top: 10px;
+}
+
+.stat-card.danger strong {
+  color: #dc2626;
+}
+
+/* =========================
+   CARDS
+========================= */
+.card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 26px;
+  margin-top: 24px;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   ADMIN DASHBOARD BUTTONS
+========================= */
+.admin-dashboard-card {
+  min-width: 240px;
+  min-height: 190px;
+  padding: 2.8rem 2.2rem;
+  border-radius: 1.5rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #020617 0%, #2563eb 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.admin-dashboard-card:hover {
+  transform: translateY(-6px) scale(1.04);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.25);
+}
+
+/* =========================
+   FORMS
+========================= */
+.clean-form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.clean-form input,
+.clean-form select,
+.clean-form button {
+  padding: 14px 16px;
+  font-size: 15px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.clean-form button {
+  grid-column: span 3;
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+}
+
+.clean-form button:hover {
+  background: #1d4ed8;
+}
+
+/* =========================
+   TABLE
+========================= */
+.modern-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.modern-table th {
+  text-align: left;
+  font-size: 13px;
+  color: #64748b;
+  padding-bottom: 12px;
+}
+
+.modern-table td {
+  padding: 18px 0;
+  border-top: 1px solid #e5e7eb;
+}
+
+.client {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.client img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+}
+
+/* =========================
+   STATUS PILLS
+========================= */
+.pill {
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.pill.active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.pill.locked {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* =========================
+   LINKS
+========================= */
+.link {
+  font-weight: 700;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.link.danger {
+  color: #dc2626;
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+
+  .main {
+    padding: 20px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .clean-form {
+    grid-template-columns: 1fr;
+  }
+
+  .clean-form button {
+    grid-column: span 1;
+  }
+
+  .admin-dashboard-card {
+    width: 100%;
+  }
+}
