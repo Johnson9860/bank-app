@@ -1,4 +1,12 @@
+
+import os
 from flask import Flask, render_template, request, redirect, session, url_for
+from werkzeug.utils import secure_filename
+
+app = Flask(__name__)
+app.secret_key = "secretkey"
+
+
 # User logout route
 @app.route("/logout")
 def logout():
@@ -10,12 +18,6 @@ def logout():
 def admin_logout():
     session.pop("admin", None)
     return redirect(url_for("admin_login", message="You have been logged out successfully."))
-import os
-from flask import Flask, render_template, request, redirect, session, url_for
-from werkzeug.utils import secure_filename
-
-app = Flask(__name__)
-app.secret_key = "secretkey"
 
 # File upload configuration
 UPLOAD_FOLDER = "static/uploads"
